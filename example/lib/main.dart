@@ -118,6 +118,7 @@ class HomePage extends StatelessWidget {
                       await Future.delayed(const Duration(seconds: 2));
                       throw "This is an error indicating that the process could not be completed";
                     },
+                    confirmationRequired: true,
                     showSuccessSnackBar: true,
                     loadingMessage: "Procesing...",
                     retryable: true,
