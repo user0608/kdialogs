@@ -1,3 +1,9 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+- Initial release.
+    - showKLoadingIndicatorWithMessage
+    - showKLoadingIndicator
+    - showKBottomErrorMessage
+    - showKDialogContent
+    - showKDialogConfirm
+    - showKDialogProcessing
