@@ -1,7 +1,7 @@
 name: kdialogs
 description: Implementation of common dialogs in Flutter projects, useful for accelerating development.
 version: 0.0.1
-homepage: kdialogs.ksaucedo.com
+homepage: https://ksaucedo.com/pacages/kdialogs
 
 environment:
   sdk: ">=3.0.2 <4.0.0"
