@@ -2,6 +2,7 @@ name: kdialogs
 description: Implementation of common dialogs in Flutter projects, useful for accelerating development.
 version: 0.0.1
 homepage: https://ksaucedo.com/pacages/kdialogs
+repository: https://github.com/user0608/kdialogs
 
 environment:
   sdk: ">=3.0.2 <4.0.0"
@@ -21,6 +22,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
 
   # To add assets to your package, add an assets section, like this:
   # assets:
