@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-Future<bool?> showKDialogConfirm(
+Future<bool> showKDialogConfirm(
   BuildContext context, {
   String? title,
   String message = "Before proceeding, Please confirm this action.",
   String acceptText = "CONFIRM",
   String cancelText = "CANCEL",
 }) async {
-  return await showDialog(
+  final width = MediaQuery.of(context).size.width;
+  final result = await showDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (context) {
@@ -16,10 +17,18 @@ Future<bool?> showKDialogConfirm(
         child: AlertDialog(
           title: title != null ? Text(title) : null,
           content: SingleChildScrollView(
-            child: ListBody(
-              children: [Text(message)],
+            child: Stack(
+              children: [
+                SizedBox(width: width),
+                ListBody(
+                  children: [
+                    Text(message),
+                  ],
+                ),
+              ],
             ),
           ),
+          actionsPadding: title == null ? const EdgeInsets.only(right: 24, bottom: 8) : null,
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -34,4 +43,5 @@ Future<bool?> showKDialogConfirm(
       );
     },
   );
+  return result ?? false;
 }

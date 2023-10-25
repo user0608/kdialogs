@@ -33,7 +33,7 @@ Future<T?> showKDialogProcessing<T>(
       title: confirmationTitle,
       message: confirmationMessage,
     );
-    if (!(confirmed ?? false)) return null;
+    if (!confirmed) return null;
   }
   if (context.mounted) {
     void Function() closeloader;

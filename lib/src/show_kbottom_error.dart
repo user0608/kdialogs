@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// The showKBottomErrorMessage function returns true if the "Retry Operation" option is selected
 /// and false in all other cases.
-Future<bool?> showKBottomErrorMessage(
+Future<bool> showKBottomErrorMessage(
   BuildContext context, {
   String title = "Error, Something was wrong...",
   required String message,
@@ -11,7 +11,7 @@ Future<bool?> showKBottomErrorMessage(
   String retryText = "RETRY",
 }) async {
   final size = MediaQuery.of(context).size;
-  return await showModalBottomSheet(
+  final result = await showModalBottomSheet<bool>(
     context: context,
     isDismissible: false,
     backgroundColor: Colors.transparent,
@@ -81,4 +81,5 @@ Future<bool?> showKBottomErrorMessage(
       );
     },
   );
+  return result ?? false;
 }

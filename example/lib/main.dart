@@ -78,6 +78,12 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text("Show Simple Content"),
               ),
+              TextButton(
+                onPressed: () async {
+                  final _ = await showKDialogConfirm(context, message: "Are you sure?");
+                },
+                child: const Text("Simple Confirm Dialog"),
+              ),
               FilledButton(
                 onPressed: () async {
                   final _ = await showKDialogConfirm(context, title: "Confirm Message");
