@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kdialogs/kdialogs.dart';
 
+/// Every item must have a unique value,
+/// and string values are extracted from the ToString function.
 Future<List<T>> showAsyncOptionsDialog<T>(
   BuildContext context, {
   required Future<Set<T>> getOptions,

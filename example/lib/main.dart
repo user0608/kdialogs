@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kdialogs/kdialogs.dart';
 
@@ -138,6 +139,38 @@ class HomePage extends StatelessWidget {
                     context,
                     allowMultipleSelection: true,
                     searchInput: true,
+                    selectedStrings: {"Opcion 1", "Opcion 5"},
+                    options: getOptions(),
+                  );
+                },
+                child: const Text("Show Options With Initial String"),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final result = await showBasicOptionsKDialog(
+                    context,
+                    allowMultipleSelection: true,
+                    searchInput: true,
+                    selectedItems: {Person(id: "2", name: "Jose")},
+                    options: {
+                      Person(id: "1", name: "Kevin"),
+                      Person(id: "2", name: "Jose"),
+                      Person(id: "3", name: "Martin"),
+                    },
+                  );
+
+                  for (var i in result) {
+                    if (kDebugMode) print(i.name);
+                  }
+                },
+                child: const Text("Show Options With Initial Options"),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final _ = await showBasicOptionsKDialog(
+                    context,
+                    allowMultipleSelection: true,
+                    searchInput: true,
                     title: 'List Options',
                     options: getOptions(),
                   );
@@ -191,3 +224,24 @@ Set<String> getOptions() => {
       "Opcion 21",
       "Opcion 22",
     };
+
+class Person {
+  final String? id;
+  final String? name;
+
+  Person({
+    this.id,
+    this.name,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    return other is Person && other.runtimeType == runtimeType && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() => name ?? "";
+}

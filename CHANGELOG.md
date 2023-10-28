@@ -17,3 +17,6 @@
 ## 0.0.3
 - Refactor 
 - Add options dialogs
+
+## 0.1.0
+- Improvements in the way objects are compared in the options dialog

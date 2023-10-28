@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
+/// Every item must have a unique value,
+/// and string values are extracted from the ToString function.
+/// To compare objects, please refer to the documentation at
+/// https://dart.dev/effective-dart/design#equality.
+/// Or use an alternative package like https://pub.dev/packages/equatable
 Future<List<T>> showBasicOptionsKDialog<T>(
   BuildContext context, {
   required Set<T> options,
+  Set<String>? selectedStrings,
+  Set<T>? selectedItems,
   bool allowMultipleSelection = false,
   bool searchInput = false,
   String? title,
@@ -10,6 +17,22 @@ Future<List<T>> showBasicOptionsKDialog<T>(
   String cancelText = "Cancel",
 }) async {
   var selectedOptions = <T>{};
+  if (selectedStrings != null) {
+    for (var opt in options) {
+      if (selectedStrings.contains(opt.toString())) {
+        selectedOptions.add(opt);
+      }
+    }
+  }
+
+  if (selectedItems != null) {
+    selectedOptions.clear();
+    for (var itm in options) {
+      if (selectedItems.contains(itm)) {
+        selectedOptions.add(itm);
+      }
+    }
+  }
 
   void select(T itm) {
     if (!allowMultipleSelection) selectedOptions.clear();
