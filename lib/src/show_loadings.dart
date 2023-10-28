@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// returns a function with which we can finish the loading process.
-Future<void Function()> showKLoadingIndicatorWithMessage(
+Future<void Function()> showKDialogWithLoadingMessage(
   BuildContext context, {
   String message = "Loading Please Wait...",
   TextStyle? textStyle,
@@ -47,7 +47,7 @@ Future<void Function()> showKLoadingIndicatorWithMessage(
   return clouser ?? () => {};
 }
 
-Future<void Function()> showKLoadingIndicator(BuildContext context) async {
+Future<void Function()> showKDialogWithLoadingIndicator(BuildContext context) async {
   void Function()? clouser;
   showDialog(
     context: context,

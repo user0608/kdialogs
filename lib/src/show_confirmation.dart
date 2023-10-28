@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<bool> showKDialogConfirm(
+Future<bool> showConfirmationKDialog(
   BuildContext context, {
   String? title,
   String message = "Before proceeding, Please confirm this action.",

@@ -1,15 +1,19 @@
 ## 0.0.1
 
 - Initial release.
-    - showKLoadingIndicatorWithMessage
-    - showKLoadingIndicator
-    - showKBottomErrorMessage
+    - showKDialogWithLoadingMessage
+    - showKDialogWithLoadingIndicator
+    - showBottomAlertKDialog
     - showKDialogContent
-    - showKDialogConfirm
-    - showKDialogProcessing
+    - showConfirmationKDialog
+    - showAsyncProgressKDialog
 
-## 0.0.1
+## 0.0.2
 
-- Fix showKDialogConfirm and showKBottomErrorMessage response
+- Fix showConfirmationKDialog and showBottomAlertKDialog response
     - response false by default
-- Fix showKDialogConfirm width when message is short 
+- Fix showConfirmationKDialog width when message is short 
+
+## 0.0.3
+- Refactor 
+- Add options dialogs

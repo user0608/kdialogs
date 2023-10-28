@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// The showKBottomErrorMessage function returns true if the "Retry Operation" option is selected
+/// The showBottomAlertKDialog function returns true if the "Retry Operation" option is selected
 /// and false in all other cases.
-Future<bool> showKBottomErrorMessage(
+///
+Future<bool> showBottomAlertKDialog(
   BuildContext context, {
   String title = "Error, Something was wrong...",
   required String message,

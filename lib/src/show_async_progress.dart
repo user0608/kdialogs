@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kdialogs/src/show_kbottom_error.dart';
-import 'package:kdialogs/src/show_kdialog_confirm.dart';
-import 'package:kdialogs/src/show_kloading_indicator.dart';
+import 'package:kdialogs/src/show_bottom_alert.dart';
+import 'package:kdialogs/src/show_confirmation.dart';
+import 'package:kdialogs/src/show_loadings.dart';
 
 SnackBar _snackBar({String? message}) {
   message ??= 'Operation completed successfully';
@@ -12,7 +12,7 @@ SnackBar _snackBar({String? message}) {
   );
 }
 
-Future<T?> showKDialogProcessing<T>(
+Future<T?> showAsyncProgressKDialog<T>(
   BuildContext context, {
   required Future<T> Function() doProcess,
   void Function(T value)? onSuccess,
@@ -28,7 +28,7 @@ Future<T?> showKDialogProcessing<T>(
   String? loadingMessage,
 }) async {
   if (confirmationRequired) {
-    final confirmed = await showKDialogConfirm(
+    final confirmed = await showConfirmationKDialog(
       context,
       title: confirmationTitle,
       message: confirmationMessage,
@@ -38,9 +38,9 @@ Future<T?> showKDialogProcessing<T>(
   if (context.mounted) {
     void Function() closeloader;
     if (loadingMessage == null) {
-      closeloader = await showKLoadingIndicator(context);
+      closeloader = await showKDialogWithLoadingIndicator(context);
     } else {
-      closeloader = await showKLoadingIndicatorWithMessage(context, message: loadingMessage);
+      closeloader = await showKDialogWithLoadingMessage(context, message: loadingMessage);
     }
     T? results;
     try {
@@ -54,7 +54,7 @@ Future<T?> showKDialogProcessing<T>(
       closeloader();
       bool? retry;
       if (context.mounted) {
-        retry = await showKBottomErrorMessage(
+        retry = await showBottomAlertKDialog(
           context,
           message: err.toString(),
           retryable: retryable,
@@ -63,7 +63,7 @@ Future<T?> showKDialogProcessing<T>(
         );
       }
       if ((retry ?? false) && context.mounted) {
-        return await showKDialogProcessing(
+        return await showAsyncProgressKDialog(
           context,
           doProcess: doProcess,
           onError: onError,

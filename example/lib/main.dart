@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
             children: [
               FilledButton(
                 onPressed: () async {
-                  final close = await showKLoadingIndicatorWithMessage(context);
+                  final close = await showKDialogWithLoadingMessage(context);
                   await Future.delayed(const Duration(seconds: 2));
                   close();
                 },
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () async {
-                  final close = await showKLoadingIndicator(context);
+                  final close = await showKDialogWithLoadingIndicator(context);
                   await Future.delayed(const Duration(seconds: 2));
                   close();
                 },
@@ -53,7 +53,7 @@ class HomePage extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () async {
-                  await showKBottomErrorMessage(context, message: "This is an error message", retryable: true);
+                  await showBottomAlertKDialog(context, message: "This is an error message", retryable: true);
                 },
                 child: const Text("Bottom Error Message"),
               ),
@@ -80,19 +80,19 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  final _ = await showKDialogConfirm(context, message: "Are you sure?");
+                  final _ = await showConfirmationKDialog(context, message: "Are you sure?");
                 },
                 child: const Text("Simple Confirm Dialog"),
               ),
               FilledButton(
                 onPressed: () async {
-                  final _ = await showKDialogConfirm(context, title: "Confirm Message");
+                  final _ = await showConfirmationKDialog(context, title: "Confirm Message");
                 },
                 child: const Text("Show Confirm Dialog"),
               ),
               FilledButton(
                 onPressed: () async {
-                  final _ = await showKDialogProcessing<String>(
+                  final _ = await showAsyncProgressKDialog<String>(
                     context,
                     doProcess: () async {
                       await Future.delayed(const Duration(seconds: 2));
@@ -105,7 +105,7 @@ class HomePage extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () async {
-                  final _ = await showKDialogProcessing<String>(
+                  final _ = await showAsyncProgressKDialog<String>(
                     context,
                     doProcess: () async {
                       await Future.delayed(const Duration(seconds: 2));
@@ -118,7 +118,7 @@ class HomePage extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () async {
-                  final _ = await showKDialogProcessing<String>(
+                  final _ = await showAsyncProgressKDialog<String>(
                     context,
                     doProcess: () async {
                       await Future.delayed(const Duration(seconds: 2));
@@ -132,6 +132,33 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text("Process With Error and Retry"),
               ),
+              FilledButton(
+                onPressed: () async {
+                  final _ = await showBasicOptionsKDialog(
+                    context,
+                    allowMultipleSelection: true,
+                    searchInput: true,
+                    title: 'List Options',
+                    options: getOptions(),
+                  );
+                },
+                child: const Text("Show Options"),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final _ = await showAsyncOptionsDialog(
+                    context,
+                    allowMultipleSelection: true,
+                    searchInput: true,
+                    getOptions: () async {
+                      final options = getOptions();
+                      await Future.delayed(const Duration(seconds: 1));
+                      return options;
+                    }(),
+                  );
+                },
+                child: const Text("Show Async Options"),
+              ),
             ],
           ),
         ),
@@ -139,3 +166,28 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+Set<String> getOptions() => {
+      "Opcion 1",
+      "Opcion 2",
+      "Opcion 3",
+      "Opcion 4",
+      "Opcion 5",
+      "Opcion 6",
+      "Opcion 7",
+      "Opcion 8",
+      "Opcion 9",
+      "Opcion 10",
+      "Opcion 11",
+      "Opcion 12",
+      "Opcion 13",
+      "Opcion 14",
+      "Opcion 15",
+      "Opcion 16",
+      "Opcion 17",
+      "Opcion 18",
+      "Opcion 19",
+      "Opcion 20",
+      "Opcion 21",
+      "Opcion 22",
+    };

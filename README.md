@@ -3,29 +3,29 @@
 Implementation of common, useful dialogs for displaying loading indicators, confirmation messages, content, error messages, and more. This README provides an overview of the project.
 - Strives to adhere to the design principles defined in Material 3.
 ### Implementations:
-*  showKLoadingIndicatorWithMessage:
+*  showKDialogWithLoadingMessage:
 
     Displays a spinner with message and provides a function to stop the indicator.
     ```dart
-        final close = await showKLoadingIndicatorWithMessage(context,message: "Loading Please Wait...");
+        final close = await showKDialogWithLoadingMessage(context,message: "Loading Please Wait...");
         await Future.delayed(const Duration(seconds: 2));
         close();
     ```
 
-*  showKLoadingIndicator:
+*  showKDialogWithLoadingIndicator:
 
     Displays a spinner and provides a function to stop the indicator.
     ```dart
-        final close = await showKLoadingIndicator(context)
+        final close = await showKDialogWithLoadingIndicator(context)
         await Future.delayed(const Duration(seconds: 2));
         close();
     ```
 
-*  showKBottomErrorMessage:
+*  showBottomAlertKDialog:
 
     Displays a bottom modal that can show an error message, along with an option to retry, which returns a boolean 'true' if the retry action is taken.
     ```dart
-        await showKBottomErrorMessage(context, message: "This is an error message", retryable: true);
+        await showBottomAlertKDialog(context, message: "This is an error message", retryable: true);
     ```
 
 *  showKDialogContent:
@@ -49,18 +49,18 @@ Implementation of common, useful dialogs for displaying loading indicators, conf
                 },
             );
     ```
-*  showKDialogConfirm:
+*  showConfirmationKDialog:
 
     Displays a dialog with the option to cancel or accept, returning 'true' if the accept option is chosen.
     ```dart
-      final response = await showKDialogConfirm(context, title: "Confirm Message");
+      final response = await showConfirmationKDialog(context, title: "Confirm Message");
     ```
-*  showKDialogProcessing:
+*  showAsyncProgressKDialog:
 
    Combines the various dialog implementations, enabling the ability to request confirmation, display loading indicators, show error dialogs, and present the retry option.
     ```dart
         // simple
-     final resultvalue = await showKDialogProcessing<String>(
+     final resultvalue = await showAsyncProgressKDialog<String>(
                 context,
                 doProcess: () async {
                     await Future.delayed(const Duration(seconds: 2)); // process
@@ -70,7 +70,7 @@ Implementation of common, useful dialogs for displaying loading indicators, conf
             );
 
     // retryable and  confirmationRequired
-    final resultvalue = await showKDialogProcessing<String>(
+    final resultvalue = await showAsyncProgressKDialog<String>(
                 context,
                 doProcess: () async {
                     await Future.delayed(const Duration(seconds: 2));
