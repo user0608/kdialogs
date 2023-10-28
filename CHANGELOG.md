@@ -20,3 +20,6 @@
 
 ## 0.1.0
 - Improvements in the way objects are compared in the options dialog
+
+## 0.1.1
+- Fix result on options dialogs when cancel button is pressed, returns null now

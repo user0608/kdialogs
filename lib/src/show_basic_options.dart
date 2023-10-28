@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// To compare objects, please refer to the documentation at
 /// https://dart.dev/effective-dart/design#equality.
 /// Or use an alternative package like https://pub.dev/packages/equatable
-Future<List<T>> showBasicOptionsKDialog<T>(
+Future<List<T>?> showBasicOptionsKDialog<T>(
   BuildContext context, {
   required Set<T> options,
   Set<String>? selectedStrings,
@@ -73,7 +73,7 @@ Future<List<T>> showBasicOptionsKDialog<T>(
       );
     },
   );
-  if (!(result ?? false)) return [];
+  if (!(result ?? false)) return null;
   return selectedOptions.toList();
 }
 
@@ -129,16 +129,7 @@ class _ContentState<T> extends State<_Content<T>> {
           maintainSize: false,
           child: TextField(
             controller: _searchController,
-            decoration: InputDecoration(
-              hintText: "Search",
-              suffixIcon: IconButton(
-                onPressed: () {
-                  _searchController.clear();
-                  search(_searchController.text);
-                },
-                icon: const Icon(Icons.clear_rounded),
-              ),
-            ),
+            decoration: const InputDecoration(hintText: "Search"),
             onChanged: search,
           ),
         ),

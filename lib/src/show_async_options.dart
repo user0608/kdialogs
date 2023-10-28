@@ -3,7 +3,11 @@ import 'package:kdialogs/kdialogs.dart';
 
 /// Every item must have a unique value,
 /// and string values are extracted from the ToString function.
-Future<List<T>> showAsyncOptionsDialog<T>(
+/// To compare objects, please refer to the documentation at
+/// https://dart.dev/effective-dart/design#equality.
+/// Or use an alternative package like https://pub.dev/packages/equatable
+///
+Future<List<T>?> showAsyncOptionsDialog<T>(
   BuildContext context, {
   required Future<Set<T>> getOptions,
   bool allowMultipleSelection = false,
@@ -23,5 +27,5 @@ Future<List<T>> showAsyncOptionsDialog<T>(
         acceptText: acceptText,
         cancelText: cancelText);
   }
-  return [];
+  return null;
 }

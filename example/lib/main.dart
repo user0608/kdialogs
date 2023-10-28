@@ -158,7 +158,7 @@ class HomePage extends StatelessWidget {
                       Person(id: "3", name: "Martin"),
                     },
                   );
-
+                  if (result == null) return;
                   for (var i in result) {
                     if (kDebugMode) print(i.name);
                   }
