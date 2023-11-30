@@ -10,7 +10,6 @@ Future<T?> showKDialogContent<T>(
   String saveBtnText = "Save",
   void Function()? onSave,
   bool closeOnOutsideTab = false,
-  bool batToClose = true,
   bool hideTitileBar = false,
   bool allowBackButtonToClose = true,
   Color? backgroundColor,
@@ -61,8 +60,8 @@ Future<T?> showKDialogContent<T>(
     barrierDismissible: closeOnOutsideTab,
     useSafeArea: true,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () async => allowBackButtonToClose,
+      return PopScope(
+        canPop: allowBackButtonToClose,
         child: AlertDialog(
           backgroundColor: backgroundColor,
           titlePadding: titlePading,

@@ -15,8 +15,8 @@ Future<void Function()> showKDialogWithLoadingMessage(
       clouser = () {
         if (context.mounted) Navigator.of(context).pop(null);
       };
-      return WillPopScope(
-        onWillPop: () async => false,
+      return PopScope(
+        canPop: false,
         child: AlertDialog(
           contentPadding: const EdgeInsets.all(24),
           content: SizedBox(
@@ -56,9 +56,9 @@ Future<void Function()> showKDialogWithLoadingIndicator(BuildContext context) as
       clouser = () {
         if (context.mounted) Navigator.of(context).pop(null);
       };
-      return WillPopScope(
-        onWillPop: () async => false,
-        child: const AlertDialog(
+      return const PopScope(
+        canPop: false,
+        child: AlertDialog(
           contentPadding: EdgeInsets.zero,
           shadowColor: Colors.transparent,
           backgroundColor: Colors.transparent,

@@ -19,8 +19,8 @@ Future<bool> showBottomAlertKDialog(
     useSafeArea: true,
     enableDrag: true,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () async => false,
+      return PopScope(
+        canPop: false,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Container(

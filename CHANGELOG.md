@@ -38,3 +38,7 @@
 ## 0.1.3
 
 - fix custom box dialog
+
+## 0.2.0
+
+- replace WillPopScope to PopScope

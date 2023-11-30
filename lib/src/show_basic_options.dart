@@ -47,8 +47,8 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return WillPopScope(
-        onWillPop: () async => false,
+      return PopScope(
+        canPop: false,
         child: AlertDialog(
           title: title != null ? Text(title) : null,
           content: _Content(
