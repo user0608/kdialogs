@@ -54,7 +54,8 @@ class HomePage extends StatelessWidget {
               ),
               FilledButton(
                 onPressed: () async {
-                  await showBottomAlertKDialog(context, message: "This is an error message", retryable: true);
+                  await showBottomAlertKDialog(context,
+                      message: "This is an error message", retryable: true);
                 },
                 child: const Text("Bottom Error Message"),
               ),
@@ -81,13 +82,15 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  final _ = await showConfirmationKDialog(context, message: "Are you sure?");
+                  final _ = await showConfirmationKDialog(context,
+                      message: "Are you sure?");
                 },
                 child: const Text("Simple Confirm Dialog"),
               ),
               FilledButton(
                 onPressed: () async {
-                  final _ = await showConfirmationKDialog(context, title: "Confirm Message");
+                  final _ = await showConfirmationKDialog(context,
+                      title: "Confirm Message");
                 },
                 child: const Text("Show Confirm Dialog"),
               ),
@@ -187,7 +190,7 @@ class HomePage extends StatelessWidget {
                       final options = getOptions();
                       await Future.delayed(const Duration(seconds: 1));
                       return options;
-                    }(),
+                    },
                   );
                 },
                 child: const Text("Show Async Options"),
@@ -236,7 +239,9 @@ class Person {
 
   @override
   bool operator ==(Object other) {
-    return other is Person && other.runtimeType == runtimeType && other.id == id;
+    return other is Person &&
+        other.runtimeType == runtimeType &&
+        other.id == id;
   }
 
   @override

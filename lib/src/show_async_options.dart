@@ -6,17 +6,17 @@ import 'package:kdialogs/kdialogs.dart';
 /// To compare objects, please refer to the documentation at
 /// https://dart.dev/effective-dart/design#equality.
 /// Or use an alternative package like https://pub.dev/packages/equatable
-///
 Future<List<T>?> showAsyncOptionsDialog<T>(
   BuildContext context, {
-  required Future<Set<T>> getOptions,
+  required Future<Set<T>> Function() getOptions,
   bool allowMultipleSelection = false,
   bool searchInput = false,
   String? title,
   String acceptText = "OK",
   String cancelText = "Cancel",
 }) async {
-  final options = await showAsyncProgressKDialog(context, doProcess: () => getOptions);
+  final options =
+      await showAsyncProgressKDialog(context, doProcess: getOptions);
   if (options == null) return [];
   if (context.mounted) {
     return await showBasicOptionsKDialog(context,

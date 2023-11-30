@@ -30,3 +30,11 @@
 ## 1.0.0
 
 - Stable version
+
+## 0.1.2
+
+- fix show sync dialog
+
+## 0.1.3
+
+- fix custom box dialog
