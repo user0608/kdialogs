@@ -7,3 +7,4 @@ export 'src/show_loadings.dart';
 export 'src/show_async_progress.dart';
 export 'src/show_basic_options.dart';
 export 'src/show_async_options.dart';
+export 'src/wrap_async_action.dart';

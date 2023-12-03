@@ -20,11 +20,12 @@ Future<T?> showAsyncProgressKDialog<T>(
   bool retryable = false,
   bool confirmationRequired = false,
   String? confirmationTitle,
-  String confirmationMessage = "Are you sure you want to proceed with this operation?",
+  String confirmationMessage =
+      "Are you sure you want to proceed with this operation?",
   bool showSuccessSnackBar = false,
   String? successMessage,
-  String acceptText = "ACCEPT",
-  String retryText = "RETRY",
+  String errorAcceptText = "ACCEPT",
+  String errorRetryText = "RETRY",
   String? loadingMessage,
 }) async {
   if (confirmationRequired) {
@@ -40,7 +41,8 @@ Future<T?> showAsyncProgressKDialog<T>(
     if (loadingMessage == null) {
       closeloader = await showKDialogWithLoadingIndicator(context);
     } else {
-      closeloader = await showKDialogWithLoadingMessage(context, message: loadingMessage);
+      closeloader =
+          await showKDialogWithLoadingMessage(context, message: loadingMessage);
     }
     T? results;
     try {
@@ -48,7 +50,8 @@ Future<T?> showAsyncProgressKDialog<T>(
       closeloader();
       if (onSuccess != null && results != null) onSuccess(results);
       if (context.mounted && (showSuccessSnackBar || successMessage != null)) {
-        ScaffoldMessenger.of(context).showSnackBar(_snackBar(message: successMessage));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(_snackBar(message: successMessage));
       }
     } catch (err) {
       closeloader();
@@ -58,8 +61,8 @@ Future<T?> showAsyncProgressKDialog<T>(
           context,
           message: err.toString(),
           retryable: retryable,
-          acceptText: acceptText,
-          retryText: retryText,
+          acceptText: errorAcceptText,
+          retryText: errorRetryText,
         );
       }
       if ((retry ?? false) && context.mounted) {
@@ -69,8 +72,8 @@ Future<T?> showAsyncProgressKDialog<T>(
           onError: onError,
           onSuccess: onSuccess,
           retryable: retryable,
-          acceptText: acceptText,
-          retryText: retryText,
+          errorAcceptText: errorAcceptText,
+          errorRetryText: errorRetryText,
         );
       }
       if (onError != null) onError(err.toString());

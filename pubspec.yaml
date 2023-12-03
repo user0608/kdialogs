@@ -5,7 +5,7 @@ homepage: https://ksaucedo.com/pacages/kdialogs
 repository: https://github.com/user0608/kdialogs
 
 environment:
-  sdk: ">=3.0.2 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
