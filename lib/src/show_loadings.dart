@@ -6,7 +6,8 @@ Future<void Function()> showKDialogWithLoadingMessage(
   String message = "Loading Please Wait...",
   TextStyle? textStyle,
 }) async {
-  textStyle ??= const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2);
+  textStyle ??=
+      const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2);
   void Function()? clouser;
   showDialog(
     context: context,
@@ -22,6 +23,7 @@ Future<void Function()> showKDialogWithLoadingMessage(
           content: SizedBox(
             width: double.maxFinite,
             child: Row(
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -47,7 +49,8 @@ Future<void Function()> showKDialogWithLoadingMessage(
   return clouser ?? () => {};
 }
 
-Future<void Function()> showKDialogWithLoadingIndicator(BuildContext context) async {
+Future<void Function()> showKDialogWithLoadingIndicator(
+    BuildContext context) async {
   void Function()? clouser;
   showDialog(
     context: context,

@@ -58,15 +58,19 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
             isSelected: isSelected,
             searchInput: searchInput,
           ),
-          actionsPadding: title == null ? const EdgeInsets.only(right: 24, bottom: 8) : null,
+          actionsPadding: title == null
+              ? const EdgeInsets.only(right: 24, bottom: 8)
+              : null,
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText, style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(cancelText,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText, style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(acceptText,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             )
           ],
         ),

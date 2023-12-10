@@ -28,15 +28,19 @@ Future<bool> showConfirmationKDialog(
               ],
             ),
           ),
-          actionsPadding: title == null ? const EdgeInsets.only(right: 24, bottom: 8) : null,
+          actionsPadding: title == null
+              ? const EdgeInsets.only(right: 24, bottom: 8)
+              : null,
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText, style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(cancelText,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText, style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(acceptText,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
             )
           ],
         ),
@@ -44,4 +48,23 @@ Future<bool> showConfirmationKDialog(
     },
   );
   return result ?? false;
+}
+
+Future<bool> showConfirmationKDialogWithCallback(
+  BuildContext context, {
+  required void Function() onConfirm,
+  String? title,
+  String message = "Before proceeding, Please confirm this action.",
+  String acceptText = "CONFIRM",
+  String cancelText = "CANCEL",
+}) async {
+  final answer = await showConfirmationKDialog(
+    context,
+    title: title,
+    acceptText: acceptText,
+    cancelText: cancelText,
+    message: message,
+  );
+  if (answer) onConfirm();
+  return answer;
 }

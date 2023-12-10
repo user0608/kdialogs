@@ -42,3 +42,8 @@
 ## 0.2.0
 
 - replace WillPopScope to PopScope
+
+
+## 0.3.0
+
+- add showConfirmationKDialogWithCallback

@@ -81,5 +81,8 @@ Implementation of common, useful dialogs for displaying loading indicators, conf
                 loadingMessage: "Procesing...",
                 retryable: true,
             );
-```
+    ```
 
+Examples:
+
+![Example](kdialogs.gif)
