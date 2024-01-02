@@ -47,3 +47,7 @@
 ## 0.3.0
 
 - add showConfirmationKDialogWithCallback
+
+## 0.3.1
+
+- fix loading context
