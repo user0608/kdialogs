@@ -1,5 +1,7 @@
 library kdialogs;
 
+export 'src/strings.dart';
+
 export 'src/show_bottom_alert.dart';
 export 'src/show_confirmation.dart';
 export 'src/show_kdialog_content.dart';

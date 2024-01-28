@@ -54,3 +54,6 @@
 ## 0.4.0
 
 - add support to set customs strings
+
+## 0.4.1
+- fix exports
