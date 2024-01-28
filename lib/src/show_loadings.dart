@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:kdialogs/src/strings.dart';
 
 /// returns a function with which we can finish the loading process.
 Future<void Function()> showKDialogWithLoadingMessage(
   BuildContext context, {
-  String message = "Loading Please Wait...",
+  String? message,
   TextStyle? textStyle,
 }) async {
-  textStyle ??= const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2);
+  textStyle ??=
+      const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2);
+  message ??= strings.loadingDialogMessage;
   void Function()? clouser;
   showDialog(
     context: context,
@@ -28,7 +31,7 @@ Future<void Function()> showKDialogWithLoadingMessage(
                 const SizedBox(width: 20.0),
                 Expanded(
                   child: Text(
-                    message,
+                    message ?? "",
                     style: textStyle,
                   ),
                 ),
@@ -46,7 +49,8 @@ Future<void Function()> showKDialogWithLoadingMessage(
   return clouser ?? () => {};
 }
 
-Future<void Function()> showKDialogWithLoadingIndicator(BuildContext context) async {
+Future<void Function()> showKDialogWithLoadingIndicator(
+    BuildContext context) async {
   void Function()? clouser;
   showDialog(
     context: context,

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kdialogs/src/strings.dart';
 
 Future<T?> showKDialogContent<T>(
   BuildContext context, {
-  EdgeInsetsGeometry contentPadding = const EdgeInsets.symmetric(horizontal: 24),
+  EdgeInsetsGeometry contentPadding =
+      const EdgeInsets.symmetric(horizontal: 24),
   EdgeInsetsGeometry scrollPadding = const EdgeInsets.only(bottom: 24),
-  EdgeInsetsGeometry titlePading = const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0),
+  EdgeInsetsGeometry titlePading =
+      const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0),
   TextButton? titleTextButton,
-  String? title = "Title!",
-  String saveBtnText = "Save",
+  String? title,
+  String? saveBtnText,
   void Function()? onSave,
   bool closeOnOutsideTab = false,
   bool hideTitileBar = false,
@@ -15,6 +18,8 @@ Future<T?> showKDialogContent<T>(
   Color? backgroundColor,
   required Widget Function(BuildContext context) builder,
 }) async {
+  title ??= strings.defaultDialogTitle;
+  saveBtnText = strings.saveButtonText;
   Widget? titleWidget;
   if (!hideTitileBar) {
     titleWidget = Row(
@@ -29,7 +34,7 @@ Future<T?> showKDialogContent<T>(
         Padding(
           padding: const EdgeInsets.only(top: 1.0),
           child: Text(
-            title ?? "",
+            title,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 18,

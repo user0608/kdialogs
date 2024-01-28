@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kdialogs/src/strings.dart';
 
 /// Every item must have a unique value,
 /// and string values are extracted from the ToString function.
@@ -13,9 +14,12 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
   bool allowMultipleSelection = false,
   bool searchInput = false,
   String? title,
-  String acceptText = "OK",
-  String cancelText = "Cancel",
+  String? acceptText,
+  String? cancelText,
 }) async {
+  acceptText ??= strings.acceptButtonText;
+  cancelText ??= strings.cancelButtonText;
+
   var selectedOptions = <T>{};
   if (selectedStrings != null) {
     for (var opt in options) {
@@ -64,12 +68,12 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText,
+              child: Text(cancelText ?? "CANCEL",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText,
+              child: Text(acceptText ?? "ACCEPT",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             )
           ],
@@ -133,7 +137,7 @@ class _ContentState<T> extends State<_Content<T>> {
           maintainSize: false,
           child: TextField(
             controller: _searchController,
-            decoration: const InputDecoration(hintText: "Search"),
+            decoration: InputDecoration(hintText: strings.searchLabelInputText),
             onChanged: search,
           ),
         ),

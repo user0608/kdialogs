@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:kdialogs/src/strings.dart';
 
 /// The showBottomAlertKDialog function returns true if the "Retry Operation" option is selected
 /// and false in all other cases.
 ///
 Future<bool> showBottomAlertKDialog(
   BuildContext context, {
-  String title = "Error, Something was wrong...",
+  String? title,
   required String message,
   bool retryable = false,
-  String acceptText = "ACCEPT",
-  String retryText = "RETRY",
+  String? acceptText,
+  String? retryText,
 }) async {
+  title ??= strings.bottomErrorAlertTitle;
+  acceptText ??= strings.acceptButtonText;
+  retryText ??= strings.errorRetryText;
   final size = MediaQuery.of(context).size;
   final result = await showModalBottomSheet<bool>(
     context: context,
@@ -37,9 +41,10 @@ Future<bool> showBottomAlertKDialog(
                   SizedBox(
                     width: double.maxFinite,
                     child: Text(
-                      title,
+                      title ?? "Alert message",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ),
                   SizedBox(
@@ -49,7 +54,8 @@ Future<bool> showBottomAlertKDialog(
                         minHeight: 55,
                       ),
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16.0),
                         child: Text(message, textAlign: TextAlign.start),
                       ),
                     ),
@@ -62,14 +68,15 @@ Future<bool> showBottomAlertKDialog(
                         Visibility(
                           visible: retryable,
                           child: TextButton(
-                            onPressed: () => Navigator.of(context).pop(retryable),
-                            child: Text(retryText),
+                            onPressed: () =>
+                                Navigator.of(context).pop(retryable),
+                            child: Text(retryText ?? "RETRY"),
                           ),
                         ),
                         const SizedBox(width: 22),
                         ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(acceptText),
+                          child: Text(acceptText ?? "ACCEPT"),
                         )
                       ],
                     ),

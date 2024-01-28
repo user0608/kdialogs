@@ -43,7 +43,6 @@
 
 - replace WillPopScope to PopScope
 
-
 ## 0.3.0
 
 - add showConfirmationKDialogWithCallback
@@ -51,3 +50,7 @@
 ## 0.3.1
 
 - fix loading context
+
+## 0.4.0
+
+- add support to set customs strings

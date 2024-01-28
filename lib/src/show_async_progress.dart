@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kdialogs/src/show_bottom_alert.dart';
 import 'package:kdialogs/src/show_confirmation.dart';
 import 'package:kdialogs/src/show_loadings.dart';
+import 'package:kdialogs/src/strings.dart';
 
 SnackBar _snackBar({String? message}) {
   message ??= 'Operation completed successfully';
@@ -20,14 +21,17 @@ Future<T?> showAsyncProgressKDialog<T>(
   bool retryable = false,
   bool confirmationRequired = false,
   String? confirmationTitle,
-  String confirmationMessage =
-      "Are you sure you want to proceed with this operation?",
+  String? confirmationMessage,
   bool showSuccessSnackBar = false,
   String? successMessage,
-  String errorAcceptText = "ACCEPT",
-  String errorRetryText = "RETRY",
+  String? errorAcceptText,
+  String? errorRetryText,
   String? loadingMessage,
+  String? bottomErrorAlertTitle,
 }) async {
+  confirmationMessage ??= strings.confirmationMessage;
+  errorAcceptText ??= strings.acceptButtonText;
+  errorRetryText ??= strings.errorRetryText;
   if (confirmationRequired) {
     final confirmed = await showConfirmationKDialog(
       context,
@@ -58,6 +62,7 @@ Future<T?> showAsyncProgressKDialog<T>(
       bool? retry;
       if (context.mounted) {
         retry = await showBottomAlertKDialog(
+          title: bottomErrorAlertTitle,
           context,
           message: err.toString(),
           retryable: retryable,

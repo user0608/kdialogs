@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kdialogs/src/strings.dart';
 
 Future<bool> showConfirmationKDialog(
   BuildContext context, {
   String? title,
-  String message = "Before proceeding, Please confirm this action.",
-  String acceptText = "CONFIRM",
-  String cancelText = "CANCEL",
+  String? message,
+  String? acceptText,
+  String? cancelText,
 }) async {
+  message ??= strings.confirmDialogText;
+  acceptText ??= strings.confirmButtonText;
+  cancelText ??= strings.cancelButtonText;
   final width = MediaQuery.of(context).size.width;
   final result = await showDialog<bool>(
     context: context,
@@ -22,7 +26,7 @@ Future<bool> showConfirmationKDialog(
                 SizedBox(width: width),
                 ListBody(
                   children: [
-                    Text(message),
+                    Text(message ?? "Are you sure?"),
                   ],
                 ),
               ],
@@ -34,12 +38,12 @@ Future<bool> showConfirmationKDialog(
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText,
+              child: Text(cancelText ?? "CANCEL",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText,
+              child: Text(acceptText ?? "CONFIRM",
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             )
           ],
@@ -54,9 +58,9 @@ Future<bool> showConfirmationKDialogWithCallback(
   BuildContext context, {
   required void Function() onConfirm,
   String? title,
-  String message = "Before proceeding, Please confirm this action.",
-  String acceptText = "CONFIRM",
-  String cancelText = "CANCEL",
+  String? message,
+  String? acceptText,
+  String? cancelText,
 }) async {
   final answer = await showConfirmationKDialog(
     context,
