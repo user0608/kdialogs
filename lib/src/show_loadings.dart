@@ -1,21 +1,24 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kdialogs/src/strings.dart';
 
 /// returns a function with which we can finish the loading process.
 Future<void Function()> showKDialogWithLoadingMessage(
   BuildContext context, {
-  String? message,
-  TextStyle? textStyle,
+  String message = "",
+  TextStyle textStyle =
+      const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2),
 }) async {
-  textStyle ??=
-      const TextStyle(color: Colors.black38, fontSize: 14, height: 1.2);
-  message ??= strings.loadingDialogMessage;
-  void Function()? clouser;
+  message = message.isNotEmpty ? message : strings.loadingDialogMessage;
+  final completer = Completer<void Function()>();
+
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      clouser = () => Navigator.of(context).pop(null);
+      dismiss() => Navigator.of(context).pop();
+      if (!completer.isCompleted) completer.complete(dismiss);
+
       return PopScope(
         canPop: false,
         child: AlertDialog(
@@ -31,7 +34,7 @@ Future<void Function()> showKDialogWithLoadingMessage(
                 const SizedBox(width: 20.0),
                 Expanded(
                   child: Text(
-                    message ?? "",
+                    message,
                     style: textStyle,
                   ),
                 ),
@@ -42,21 +45,22 @@ Future<void Function()> showKDialogWithLoadingMessage(
       );
     },
   );
-  while (clouser == null) {
-    // wait until the closure variable becomes non-null.
-    await Future.delayed(const Duration(milliseconds: 1));
-  }
-  return clouser ?? () => {};
+
+  return completer.future;
 }
 
 Future<void Function()> showKDialogWithLoadingIndicator(
     BuildContext context) async {
-  void Function()? clouser;
+  final completer = Completer<void Function()>();
+
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      clouser = () => Navigator.of(context).pop(null);
+      dismiss() => Navigator.of(context).pop();
+      if (!completer.isCompleted) {
+        completer.complete(dismiss);
+      }
       return const PopScope(
         canPop: false,
         child: AlertDialog(
@@ -74,9 +78,6 @@ Future<void Function()> showKDialogWithLoadingIndicator(
       );
     },
   );
-  while (clouser == null) {
-    // wait until the closure variable becomes non-null.
-    await Future.delayed(const Duration(milliseconds: 1));
-  }
-  return clouser ?? () => {};
+
+  return completer.future;
 }

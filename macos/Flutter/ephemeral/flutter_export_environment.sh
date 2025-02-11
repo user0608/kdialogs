@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/home/user002/development/flutter"
-export "FLUTTER_APPLICATION_PATH=/home/user002/Documents/flutter_projects/kdialogs"
+export "FLUTTER_APPLICATION_PATH=/home/user002/personal/kdialogs"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
-export "FLUTTER_BUILD_NAME=0.3.1"
-export "FLUTTER_BUILD_NUMBER=0.3.1"
+export "FLUTTER_BUILD_NAME=0.4.1"
+export "FLUTTER_BUILD_NUMBER=0.4.1"
 export "DART_OBFUSCATION=false"
 export "TRACK_WIDGET_CREATION=true"
 export "TREE_SHAKE_ICONS=false"
