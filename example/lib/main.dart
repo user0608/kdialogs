@@ -56,10 +56,27 @@ class HomePage extends StatelessWidget {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    await showBottomAlertKDialog(context,
-                        message: "This is an error message", retryable: true);
+                    await showBottomAlertKDialog(
+                      context,
+                      message: "This is an error message",
+                      retryable: true,
+                    );
                   },
                   child: const Text("Bottom Error Message"),
+                ),
+                FilledButton(
+                  onPressed: () async {
+                    await showBottomAlertKDialog(
+                      context,
+                      message:
+                          "This is an error message. It is intentionally very long to test the dialog's capacity to handle extensive text. "
+                          "Sometimes, error messages can be lengthy and descriptive, providing detailed information about what went wrong, "
+                          "suggested solutions, and even additional debugging steps. If the dialog is properly designed, it should be able to "
+                          "wrap the text correctly, offer scrolling if necessary, and ensure that the message remains readable on different screen sizes.",
+                      retryable: true,
+                    );
+                  },
+                  child: const Text("Large Error Message"),
                 ),
                 FilledButton(
                   onPressed: () async {
