@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kdialogs/src/strings.dart';
 
-/// The showBottomAlertKDialog function returns true if the "Retry Operation" option is selected
-/// and false in all other cases.
-///
 Future<bool> showBottomAlertKDialog(
   BuildContext context, {
   String? title,
@@ -15,7 +12,6 @@ Future<bool> showBottomAlertKDialog(
   title ??= strings.bottomErrorAlertTitle;
   acceptText ??= strings.acceptButtonText;
   retryText ??= strings.errorRetryText;
-  final size = MediaQuery.of(context).size;
   final result = await showModalBottomSheet<bool>(
     context: context,
     isDismissible: false,
@@ -47,15 +43,13 @@ Future<bool> showBottomAlertKDialog(
                           fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                   ),
-                  SizedBox(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: size.height * 0.4,
-                        minHeight: 55,
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 16.0,
+                        horizontal: 16.0,
                       ),
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 16.0),
                         child: Text(message, textAlign: TextAlign.start),
                       ),
                     ),
