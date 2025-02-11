@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kdialogs/src/show_bottom_alert.dart';
 import 'package:kdialogs/src/strings.dart';
 
-Future<T?> wrapAsyncAction<T>(
+Future<T?> executeAsyncWithErrorDialog<T>(
   BuildContext context, {
   required Future<T> Function() doProcess,
   void Function(T value)? onSuccess,

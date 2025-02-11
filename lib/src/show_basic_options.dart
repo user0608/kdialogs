@@ -6,11 +6,29 @@ import 'package:kdialogs/src/strings.dart';
 /// To compare objects, please refer to the documentation at
 /// https://dart.dev/effective-dart/design#equality.
 /// Or use an alternative package like https://pub.dev/packages/equatable
-Future<List<T>?> showBasicOptionsKDialog<T>(
+
+abstract class SelectOption {
+  String getID();
+  String getLabel();
+}
+
+class StringOption implements SelectOption {
+  final String value;
+  const StringOption(this.value);
+  @override
+  String getID() => value;
+  @override
+  String getLabel() => value;
+}
+
+List<StringOption> stringOptionsAdapter(List<String> values) {
+  return values.map((s) => StringOption(s)).toList();
+}
+
+Future<List<T>?> showBasicOptionsKDialog<T extends SelectOption>(
   BuildContext context, {
-  required Set<T> options,
-  Set<String>? selectedStrings,
-  Set<T>? selectedItems,
+  required List<T> options,
+  List<String> initialSelection = const [],
   bool allowMultipleSelection = false,
   bool searchInput = false,
   String? title,
@@ -20,32 +38,17 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
   acceptText ??= strings.acceptButtonText;
   cancelText ??= strings.cancelButtonText;
 
-  var selectedOptions = <T>{};
-  if (selectedStrings != null) {
-    for (var opt in options) {
-      if (selectedStrings.contains(opt.toString())) {
-        selectedOptions.add(opt);
-      }
-    }
-  }
+  var selectedOptions = options
+      .where((opt) => initialSelection.contains(opt.getID()))
+      .toSet(); // Evita duplicados
 
-  if (selectedItems != null) {
-    selectedOptions.clear();
-    for (var itm in options) {
-      if (selectedItems.contains(itm)) {
-        selectedOptions.add(itm);
-      }
-    }
-  }
-
+  bool isSelected(T itm) => selectedOptions.contains(itm);
   void select(T itm) {
     if (!allowMultipleSelection) selectedOptions.clear();
     selectedOptions.add(itm);
   }
 
   void unselect(T itm) => selectedOptions.remove(itm);
-
-  void isSelected(T itm) => selectedOptions.contains(itm);
 
   final result = await showDialog<bool>(
     context: context,
@@ -55,7 +58,7 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
         canPop: false,
         child: AlertDialog(
           title: title != null ? Text(title) : null,
-          content: _Content(
+          content: _Content<T>(
             options: options,
             select: select,
             unselect: unselect,
@@ -68,24 +71,27 @@ Future<List<T>?> showBasicOptionsKDialog<T>(
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText ?? "CANCEL",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(
+                cancelText!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText ?? "ACCEPT",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-            )
+              child: Text(
+                acceptText!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       );
     },
   );
-  if (!(result ?? false)) return null;
-  return selectedOptions.toList();
+  return result == true ? selectedOptions.toList() : null;
 }
 
-class _Content<T> extends StatefulWidget {
+class _Content<T extends SelectOption> extends StatefulWidget {
   const _Content({
     required this.options,
     required this.select,
@@ -95,57 +101,52 @@ class _Content<T> extends StatefulWidget {
   });
 
   final bool searchInput;
-  final Set<T> options;
+  final List<T> options;
   final Function(T) select;
   final Function(T) unselect;
-  final Function(T) isSelected;
+  final bool Function(T) isSelected;
 
   @override
   State<_Content<T>> createState() => _ContentState<T>();
 }
 
-class _ContentState<T> extends State<_Content<T>> {
+class _ContentState<T extends SelectOption> extends State<_Content<T>> {
   final _searchController = TextEditingController();
-  late Set<T> _options;
+  late List<T> _filteredOptions;
+
   @override
   void initState() {
-    _options = widget.options;
+    _filteredOptions = widget.options;
     super.initState();
   }
 
-  Set<T> filterFunc(Set<T> elements, String filterValue) {
-    return elements.where((elm) {
-      final elmString = elm.toString().trim().toLowerCase();
-      return elmString.contains(filterValue.trim().toLowerCase());
-    }).toSet();
-  }
-
   void search(String value) {
-    final filter = filterFunc;
     setState(() {
-      _options = filter(widget.options, value);
+      _filteredOptions = widget.options
+          .where((elm) =>
+              elm.getLabel().toLowerCase().contains(value.toLowerCase()))
+          .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        SizedBox(width: MediaQuery.of(context).size.width),
-        Visibility(
-          visible: widget.searchInput,
-          maintainSize: false,
-          child: TextField(
-            controller: _searchController,
-            decoration: InputDecoration(hintText: strings.searchLabelInputText),
-            onChanged: search,
+        if (widget.searchInput)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration:
+                  InputDecoration(hintText: strings.searchLabelInputText),
+              onChanged: search,
+            ),
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: widget.searchInput ? 60.0 : 0),
+        Expanded(
           child: SingleChildScrollView(
             child: ListBody(
-              children: _options.map((op) => buildItem(op)).toList(),
+              children: _filteredOptions.map((op) => buildItem(op)).toList(),
             ),
           ),
         ),
@@ -153,22 +154,19 @@ class _ContentState<T> extends State<_Content<T>> {
     );
   }
 
-  Row buildItem(op) {
+  Widget buildItem(T op) {
     return Row(
       children: [
         Checkbox(
-            value: widget.isSelected(op),
-            onChanged: (value) {
-              setState(() {
-                if (value ?? false) {
-                  widget.select(op);
-                } else {
-                  widget.unselect(op);
-                }
-              });
-            }),
+          value: widget.isSelected(op),
+          onChanged: (value) {
+            setState(() {
+              value == true ? widget.select(op) : widget.unselect(op);
+            });
+          },
+        ),
         Expanded(
-          child: Text(op.toString()),
+          child: Text(op.getLabel()),
         ),
       ],
     );

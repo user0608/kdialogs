@@ -82,15 +82,20 @@ class HomePage extends StatelessWidget {
                   onPressed: () async {
                     await showKDialogContent(
                       context,
-                      closeOnOutsideTab: false,
+                      closeOnOutsideTap: false,
+                      onSave: () {
+                        return true;
+                      },
+                      title: "Title",
                       builder: (context) {
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text("Hello there!!!"),
                             Container(
                               color: Colors.green,
                               width: 100.0,
-                              height: 100.0,
+                              height: 800.0,
                             )
                           ],
                         );
@@ -157,13 +162,17 @@ class HomePage extends StatelessWidget {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    final _ = await showBasicOptionsKDialog(
+                    final selecteds = await showBasicOptionsKDialog(
                       context,
                       allowMultipleSelection: true,
                       searchInput: true,
-                      selectedStrings: {"Opcion 1", "Opcion 5"},
+                      initialSelection: ["Opcion 1", "Opcion 5"],
                       options: getOptions(),
                     );
+                    if (selecteds == null) return;
+                    for (final v in selecteds) {
+                      debugPrint(v.getLabel());
+                    }
                   },
                   child: const Text("Show Options With Initial String"),
                 ),
@@ -173,12 +182,14 @@ class HomePage extends StatelessWidget {
                       context,
                       allowMultipleSelection: true,
                       searchInput: true,
-                      selectedItems: {Person(id: "2", name: "Jose")},
-                      options: {
+                      initialSelection: [Person(id: "2", name: "Jose")]
+                          .map((p) => p.getID())
+                          .toList(),
+                      options: [
                         Person(id: "1", name: "Kevin"),
                         Person(id: "2", name: "Jose"),
                         Person(id: "3", name: "Martin"),
-                      },
+                      ],
                     );
                     if (result == null) return;
                     for (var i in result) {
@@ -201,16 +212,21 @@ class HomePage extends StatelessWidget {
                 ),
                 FilledButton(
                   onPressed: () async {
-                    final _ = await showAsyncOptionsDialog(
+                    final selecteds = await showAsyncOptionsDialog(
                       context,
                       allowMultipleSelection: true,
                       searchInput: true,
+                      initialSelection: ["Opcion 1"],
                       getOptions: () async {
                         final options = getOptions();
                         await Future.delayed(const Duration(seconds: 1));
                         return options;
                       },
                     );
+                    if (selecteds == null) return;
+                    for (final v in selecteds) {
+                      debugPrint(v.getLabel());
+                    }
                   },
                   child: const Text("Show Async Options"),
                 ),
@@ -236,32 +252,35 @@ class HomePage extends StatelessWidget {
   }
 }
 
-Set<String> getOptions() => {
-      "Opcion 1",
-      "Opcion 2",
-      "Opcion 3",
-      "Opcion 4",
-      "Opcion 5",
-      "Opcion 6",
-      "Opcion 7",
-      "Opcion 8",
-      "Opcion 9",
-      "Opcion 10",
-      "Opcion 11",
-      "Opcion 12",
-      "Opcion 13",
-      "Opcion 14",
-      "Opcion 15",
-      "Opcion 16",
-      "Opcion 17",
-      "Opcion 18",
-      "Opcion 19",
-      "Opcion 20",
-      "Opcion 21",
-      "Opcion 22",
-    };
+List<SelectOption> getOptions() {
+  const values = [
+    "Opcion 1",
+    "Opcion 2",
+    "Opcion 3",
+    "Opcion 4",
+    "Opcion 5",
+    "Opcion 6",
+    "Opcion 7",
+    "Opcion 8",
+    "Opcion 9",
+    "Opcion 10",
+    "Opcion 11",
+    "Opcion 12",
+    "Opcion 13",
+    "Opcion 14",
+    "Opcion 15",
+    "Opcion 16",
+    "Opcion 17",
+    "Opcion 18",
+    "Opcion 19",
+    "Opcion 20",
+    "Opcion 21",
+    "Opcion 22",
+  ];
+  return stringOptionsAdapter(values);
+}
 
-class Person {
+class Person implements SelectOption {
   final String? id;
   final String? name;
 
@@ -271,15 +290,7 @@ class Person {
   });
 
   @override
-  bool operator ==(Object other) {
-    return other is Person &&
-        other.runtimeType == runtimeType &&
-        other.id == id;
-  }
-
+  String getID() => id ?? "-";
   @override
-  int get hashCode => id.hashCode;
-
-  @override
-  String toString() => name ?? "";
+  String getLabel() => name ?? "-";
 }

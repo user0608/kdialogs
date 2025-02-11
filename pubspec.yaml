@@ -1,6 +1,6 @@
 name: kdialogs
 description: Implementation of common dialogs in Flutter projects, useful for accelerating development.
-version: 0.4.1
+version: 0.5.0
 homepage: https://ksaucedo.com/pacages/kdialogs
 repository: https://github.com/user0608/kdialogs
 

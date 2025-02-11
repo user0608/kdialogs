@@ -11,7 +11,7 @@ Future<bool> showConfirmationKDialog(
   message ??= strings.confirmDialogText;
   acceptText ??= strings.confirmButtonText;
   cancelText ??= strings.cancelButtonText;
-  final width = MediaQuery.of(context).size.width;
+
   final result = await showDialog<bool>(
     context: context,
     barrierDismissible: false,
@@ -21,16 +21,7 @@ Future<bool> showConfirmationKDialog(
         child: AlertDialog(
           title: title != null ? Text(title) : null,
           content: SingleChildScrollView(
-            child: Stack(
-              children: [
-                SizedBox(width: width),
-                ListBody(
-                  children: [
-                    Text(message ?? "Are you sure?"),
-                  ],
-                ),
-              ],
-            ),
+            child: Text(message!),
           ),
           actionsPadding: title == null
               ? const EdgeInsets.only(right: 24, bottom: 8)
@@ -38,19 +29,24 @@ Future<bool> showConfirmationKDialog(
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: Text(cancelText ?? "CANCEL",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              child: Text(
+                cancelText!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(true),
-              child: Text(acceptText ?? "CONFIRM",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-            )
+              child: Text(
+                acceptText!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ],
         ),
       );
     },
   );
+
   return result ?? false;
 }
 
@@ -62,13 +58,15 @@ Future<bool> showConfirmationKDialogWithCallback(
   String? acceptText,
   String? cancelText,
 }) async {
-  final answer = await showConfirmationKDialog(
+  final bool answer = await showConfirmationKDialog(
     context,
     title: title,
     acceptText: acceptText,
     cancelText: cancelText,
     message: message,
   );
-  if (answer) onConfirm();
+
+  if (answer == true) onConfirm();
+
   return answer;
 }

@@ -32,6 +32,7 @@ Future<T?> showAsyncProgressKDialog<T>(
   confirmationMessage ??= strings.confirmationMessage;
   errorAcceptText ??= strings.acceptButtonText;
   errorRetryText ??= strings.errorRetryText;
+
   if (confirmationRequired) {
     final confirmed = await showConfirmationKDialog(
       context,
@@ -40,50 +41,52 @@ Future<T?> showAsyncProgressKDialog<T>(
     );
     if (!confirmed) return null;
   }
-  if (context.mounted) {
-    void Function() closeloader;
-    if (loadingMessage == null) {
-      closeloader = await showKDialogWithLoadingIndicator(context);
-    } else {
-      closeloader =
-          await showKDialogWithLoadingMessage(context, message: loadingMessage);
+  if (!context.mounted) return null;
+  void Function() closeloader = () {};
+  try {
+    closeloader = loadingMessage == null
+        ? await showKDialogWithLoadingIndicator(context)
+        : await showKDialogWithLoadingMessage(context, message: loadingMessage);
+
+    final results = await doProcess();
+    if (context.mounted) closeloader();
+    if (onSuccess != null) onSuccess(results);
+
+    if (context.mounted && (showSuccessSnackBar || successMessage != null)) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(_snackBar(message: successMessage));
     }
-    T? results;
-    try {
-      results = await doProcess();
-      closeloader();
-      if (onSuccess != null && results != null) onSuccess(results);
-      if (context.mounted && (showSuccessSnackBar || successMessage != null)) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(_snackBar(message: successMessage));
-      }
-    } catch (err) {
-      closeloader();
-      bool? retry;
-      if (context.mounted) {
-        retry = await showBottomAlertKDialog(
-          title: bottomErrorAlertTitle,
-          context,
-          message: err.toString(),
-          retryable: retryable,
-          acceptText: errorAcceptText,
-          retryText: errorRetryText,
-        );
-      }
-      if ((retry ?? false) && context.mounted) {
-        return await showAsyncProgressKDialog(
-          context,
-          doProcess: doProcess,
-          onError: onError,
-          onSuccess: onSuccess,
-          retryable: retryable,
-          errorAcceptText: errorAcceptText,
-          errorRetryText: errorRetryText,
-        );
-      }
-      if (onError != null) onError(err.toString());
-    }
+
     return results;
+  } catch (err) {
+    if (context.mounted) closeloader();
+
+    bool retry = false;
+    if (context.mounted) {
+      retry = await showBottomAlertKDialog(
+        title: bottomErrorAlertTitle,
+        context,
+        message: err.toString(),
+        retryable: retryable,
+        acceptText: errorAcceptText,
+        retryText: errorRetryText,
+      );
+    }
+
+    if (retry && context.mounted) {
+      return await showAsyncProgressKDialog(
+        context,
+        doProcess: doProcess,
+        onError: onError,
+        onSuccess: onSuccess,
+        retryable: retryable,
+        errorAcceptText: errorAcceptText,
+        errorRetryText: errorRetryText,
+      );
+    }
+
+    if (onError != null) onError(err.toString());
   }
+
   return null;
 }
