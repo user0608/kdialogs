@@ -87,3 +87,7 @@
   - Fixed `isSelected`, previously misdeclared as `void`.  
   - Used `toSet()` in `selectedOptions` to prevent duplicates and boost performance.  
   - Refactored search, removing unnecessary functions.  
+
+
+## 0.5.1
+  - Make dialog height adaptable by adding useMaxHeight flag

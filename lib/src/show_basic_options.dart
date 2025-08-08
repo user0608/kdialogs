@@ -34,6 +34,7 @@ Future<List<T>?> showBasicOptionsKDialog<T extends SelectOption>(
   String? title,
   String? acceptText,
   String? cancelText,
+  bool useMaxHeight = true,
 }) async {
   acceptText ??= strings.acceptButtonText;
   cancelText ??= strings.cancelButtonText;
@@ -59,6 +60,7 @@ Future<List<T>?> showBasicOptionsKDialog<T extends SelectOption>(
         child: AlertDialog(
           title: title != null ? Text(title) : null,
           content: _Content<T>(
+            useMaxHeight: useMaxHeight,
             options: options,
             select: select,
             unselect: unselect,
@@ -98,8 +100,10 @@ class _Content<T extends SelectOption> extends StatefulWidget {
     required this.unselect,
     required this.isSelected,
     required this.searchInput,
+    required this.useMaxHeight,
   });
 
+  final bool useMaxHeight;
   final bool searchInput;
   final List<T> options;
   final Function(T) select;
@@ -132,6 +136,7 @@ class _ContentState<T extends SelectOption> extends State<_Content<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: widget.useMaxHeight ? MainAxisSize.max : MainAxisSize.min,
       children: [
         if (widget.searchInput)
           Padding(
@@ -143,13 +148,13 @@ class _ContentState<T extends SelectOption> extends State<_Content<T>> {
               onChanged: search,
             ),
           ),
-        Expanded(
+        Flexible(
           child: SingleChildScrollView(
             child: ListBody(
               children: _filteredOptions.map((op) => buildItem(op)).toList(),
             ),
           ),
-        ),
+        )
       ],
     );
   }

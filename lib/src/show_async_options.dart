@@ -10,6 +10,7 @@ Future<List<T>?> showAsyncOptionsDialog<T extends SelectOption>(
   String? title,
   String? acceptText,
   String? cancelText,
+  bool useMaxHeight = true,
 }) async {
   acceptText ??= strings.acceptButtonText;
   cancelText ??= strings.cancelButtonText;
@@ -30,5 +31,6 @@ Future<List<T>?> showAsyncOptionsDialog<T extends SelectOption>(
     title: title,
     acceptText: acceptText,
     cancelText: cancelText,
+    useMaxHeight: useMaxHeight,
   );
 }
