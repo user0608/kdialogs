@@ -10,6 +10,8 @@ Future<T?> showKDialogContent<T>(
     right: 16.0,
     bottom: 8.0,
   ),
+  EdgeInsets? insetPadding,
+  EdgeInsetsGeometry? buttonPadding,
   EdgeInsetsGeometry scrollPadding = const EdgeInsets.only(bottom: 24),
   EdgeInsetsGeometry titlePadding =
       const EdgeInsets.only(right: 8.0, left: 8.0, top: 5.0),
@@ -20,6 +22,7 @@ Future<T?> showKDialogContent<T>(
   bool closeOnOutsideTap = false,
   bool hideTitleBar = false,
   bool allowBackButtonToClose = true,
+  bool fixedWidth = true,
   Color? backgroundColor,
   required Widget Function(BuildContext context) builder,
 }) async {
@@ -73,7 +76,19 @@ Future<T?> showKDialogContent<T>(
       ],
     );
   }
-
+  double? dialogWidth;
+  if (fixedWidth) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth < 600) {
+      dialogWidth = screenWidth;
+    } else if (screenWidth < 1024) {
+      dialogWidth = 500;
+    } else if (screenWidth < 1440) {
+      dialogWidth = 700;
+    } else {
+      dialogWidth = 900;
+    }
+  }
   return await showDialog<T>(
     context: context,
     barrierDismissible: closeOnOutsideTap,
@@ -82,12 +97,15 @@ Future<T?> showKDialogContent<T>(
       return PopScope(
         canPop: allowBackButtonToClose,
         child: AlertDialog(
+          scrollable: true,
+          buttonPadding: buttonPadding,
+          insetPadding: insetPadding,
           backgroundColor: backgroundColor,
           titlePadding: titlePadding,
           title: titleWidget,
           contentPadding: EdgeInsets.zero,
-          content: SingleChildScrollView(
-            padding: scrollPadding,
+          content: SizedBox(
+            width: dialogWidth,
             child: Padding(
               padding: contentPadding,
               child: builder(context),

@@ -59,35 +59,44 @@
 
 - fix exports
 
-## 0.5.0  
-- **General**  
-  - Refactored multiple functions for readability, efficiency, and security.  
-  - Removed redundant code; improved `context.mounted` usage in dialogs.  
-  - Optimized dialog logic to prevent overflow and enhance UX.  
+## 0.5.0
 
-- **Fixes in `showKDialogContent`**  
-  - Prevented title overflow with `TextOverflow.ellipsis` and `Flexible`.  
-  - `onSave` is now `Future<bool>`, closing only if it returns `true`.  
-  - Fixed `titlePadding` (was `titlePading`).  
-  - Removed unnecessary `SizedBox(width: double.maxFinite)`.  
+- **General**
 
-- **Improvements in `showAsyncProgressKDialog`**  
-  - Initialized `closeloader = () {};` to prevent errors if `doProcess()` fails.  
-  - Verified `context.mounted` in critical points to avoid exceptions.  
-  - Improved `retry` handling by storing it before checking `context.mounted`.  
-  - Ensured the loading dialog closes before any `await` in `catch`.  
+  - Refactored multiple functions for readability, efficiency, and security.
+  - Removed redundant code; improved `context.mounted` usage in dialogs.
+  - Optimized dialog logic to prevent overflow and enhance UX.
 
-- **Renamed** `wrapAsyncAction` → `executeAsyncWithErrorDialog`  
+- **Fixes in `showKDialogContent`**
 
-- **Optimized `showConfirmationKDialogWithCallback`**  
-  - Ensured `onConfirm()` runs only if `answer == true`.  
-  - Direct return, removing unnecessary temp variables.  
+  - Prevented title overflow with `TextOverflow.ellipsis` and `Flexible`.
+  - `onSave` is now `Future<bool>`, closing only if it returns `true`.
+  - Fixed `titlePadding` (was `titlePading`).
+  - Removed unnecessary `SizedBox(width: double.maxFinite)`.
 
-- **Fixes in `showBasicOptionsKDialog`**  
-  - Fixed `isSelected`, previously misdeclared as `void`.  
-  - Used `toSet()` in `selectedOptions` to prevent duplicates and boost performance.  
-  - Refactored search, removing unnecessary functions.  
+- **Improvements in `showAsyncProgressKDialog`**
 
+  - Initialized `closeloader = () {};` to prevent errors if `doProcess()` fails.
+  - Verified `context.mounted` in critical points to avoid exceptions.
+  - Improved `retry` handling by storing it before checking `context.mounted`.
+  - Ensured the loading dialog closes before any `await` in `catch`.
+
+- **Renamed** `wrapAsyncAction` → `executeAsyncWithErrorDialog`
+
+- **Optimized `showConfirmationKDialogWithCallback`**
+
+  - Ensured `onConfirm()` runs only if `answer == true`.
+  - Direct return, removing unnecessary temp variables.
+
+- **Fixes in `showBasicOptionsKDialog`**
+  - Fixed `isSelected`, previously misdeclared as `void`.
+  - Used `toSet()` in `selectedOptions` to prevent duplicates and boost performance.
+  - Refactored search, removing unnecessary functions.
 
 ## 0.5.1
-  - Make dialog height adaptable by adding useMaxHeight flag
+
+- Make dialog height adaptable by adding useMaxHeight flag
+
+## 0.5.2
+
+- Add support for fixed dialog width with breakpoints (mobile, tablet, desktop, large desktop) to ensure forms look good on all screen sizes.

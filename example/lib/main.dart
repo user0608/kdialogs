@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kdialogs/kdialogs.dart';
 
 void main() {
@@ -45,15 +46,18 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Loading With Message"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
-                    final close =
-                        await showKDialogWithLoadingIndicator(context);
+                    final close = await showKDialogWithLoadingIndicator(
+                      context,
+                    );
                     await Future.delayed(const Duration(seconds: 2));
                     close();
                   },
                   child: const Text("Just Loading"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     await showBottomAlertKDialog(
@@ -64,6 +68,18 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Bottom Error Message"),
                 ),
+                SizedBox(height: 8.0),
+                FilledButton(
+                  onPressed: () async {
+                    await showBottomAlertKDialog(
+                      context,
+                      message: generateRandomText(500),
+                      retryable: true,
+                    );
+                  },
+                  child: const Text("Bottom Error Long Message"),
+                ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     await showBottomAlertKDialog(
@@ -78,6 +94,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Large Error Message"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     await showKDialogContent(
@@ -102,8 +119,37 @@ class HomePage extends StatelessWidget {
                       },
                     );
                   },
+                  child: const Text("Show Simple Content Fixed Width"),
+                ),
+                SizedBox(height: 8.0),
+                FilledButton(
+                  onPressed: () async {
+                    await showKDialogContent(
+                      context,
+                      closeOnOutsideTap: false,
+                      onSave: () {
+                        return true;
+                      },
+                      title: "Title",
+                      fixedWidth: false,
+                      builder: (context) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Hello there!!!"),
+                            Container(
+                              color: Colors.green,
+                              width: 100.0,
+                              height: 800.0,
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
                   child: const Text("Show Simple Content"),
                 ),
+                SizedBox(height: 8.0),
                 TextButton(
                   onPressed: () async {
                     final _ = await showConfirmationKDialog(context,
@@ -111,6 +157,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Simple Confirm Dialog"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showConfirmationKDialog(context,
@@ -118,6 +165,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Show Confirm Dialog"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showAsyncProgressKDialog<String>(
@@ -131,6 +179,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Success Process"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showAsyncProgressKDialog<String>(
@@ -144,6 +193,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Process With Error"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showAsyncProgressKDialog<String>(
@@ -160,6 +210,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Process With Error and Retry"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final selecteds = await showBasicOptionsKDialog(
@@ -176,6 +227,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Show Options With Initial String"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final result = await showBasicOptionsKDialog(
@@ -198,6 +250,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Show Options With Initial Options"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showBasicOptionsKDialog(
@@ -210,6 +263,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Show Options"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final selecteds = await showAsyncOptionsDialog(
@@ -230,6 +284,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Show Async Options"),
                 ),
+                SizedBox(height: 8.0),
                 FilledButton(
                   onPressed: () async {
                     final _ = await showConfirmationKDialogWithCallback(
@@ -293,4 +348,25 @@ class Person implements SelectOption {
   String getID() => id ?? "-";
   @override
   String getLabel() => name ?? "-";
+}
+
+String generateRandomText(int wordCount) {
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  final random = Random();
+  List<String> words = [];
+
+  for (int i = 0; i < wordCount; i++) {
+    int length = random.nextInt(5) + 3; // word length between 3–7
+    String word = List.generate(
+      length,
+      (_) => letters[random.nextInt(letters.length)],
+    ).join();
+
+    if (i == 0) {
+      word = word[0].toUpperCase() + word.substring(1);
+    }
+    words.add(word);
+  }
+
+  return '${words.join(' ')}.';
 }
